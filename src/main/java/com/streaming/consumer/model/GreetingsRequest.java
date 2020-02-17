@@ -1,13 +1,15 @@
-package com.streaming.consumer;
+package com.streaming.consumer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-class GreetingsRequest {
+public class GreetingsRequest {
 
     private String name;
 
