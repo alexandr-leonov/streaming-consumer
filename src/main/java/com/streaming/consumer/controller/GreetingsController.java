@@ -33,12 +33,11 @@ public class GreetingsController {
 
     @GetMapping(value = "/greet-stream/{name}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<GreetingsResponse> infiniteGreet(@PathVariable String name) {
-            return rSocketRequesterConfig.get()
-                    .route("greet-stream")
-                    .data(new GreetingsRequest(name))
-                    .retrieveFlux(GreetingsResponse.class);
+        return rSocketRequesterConfig.get()
+                .route("greet-stream")
+                .data(new GreetingsRequest(name))
+                .retrieveFlux(GreetingsResponse.class);
     }
-
 
 
 }
