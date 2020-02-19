@@ -24,4 +24,11 @@ public class FileController {
                 .retrieveMono(byte[].class);
     }
 
+    @GetMapping(value = "/cam/capture", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Mono<byte[]> capture() {
+        return rSocketRequesterConfig.get()
+                .route("cam-capture")
+                .retrieveMono(byte[].class);
+    }
+
 }
