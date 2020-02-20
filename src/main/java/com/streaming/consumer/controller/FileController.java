@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -16,7 +17,7 @@ public class FileController {
     private RSocketRequesterConfig rSocketRequesterConfig;
 
     @GetMapping(value = "/file/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public Mono<byte[]> greet(@PathVariable String filename) {
+    public Mono<byte[]> getFile(@PathVariable String filename) {
         return rSocketRequesterConfig.get()
                 .route("file")
                 .metadata(filename, MimeTypeUtils.APPLICATION_OCTET_STREAM)
@@ -24,10 +25,21 @@ public class FileController {
                 .retrieveMono(byte[].class);
     }
 
-    @GetMapping(value = "/cam/capture", produces = MediaType.IMAGE_JPEG_VALUE)
-    public Mono<byte[]> capture() {
+    @GetMapping(value = "/cam/{name}/capture", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Mono<byte[]> capture(@PathVariable String name) {
         return rSocketRequesterConfig.get()
                 .route("cam-capture")
+                .metadata(name, MimeTypeUtils.IMAGE_JPEG)
+                .data(name)
+                .retrieveMono(byte[].class);
+    }
+
+    @GetMapping(value = "/play", produces = "video/webm")
+    public Mono<byte[]> playMedia(@RequestParam("name") String filename) {
+        return rSocketRequesterConfig.get()
+                .route("play-file")
+                .metadata(filename, MimeTypeUtils.APPLICATION_OCTET_STREAM)
+                .data(filename)
                 .retrieveMono(byte[].class);
     }
 
