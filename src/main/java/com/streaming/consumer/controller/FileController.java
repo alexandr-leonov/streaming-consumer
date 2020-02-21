@@ -43,4 +43,11 @@ public class FileController {
                 .retrieveMono(byte[].class);
     }
 
+    @GetMapping(value = "/cam/exit")
+    public Mono<Boolean> exitCamera() {
+        return rSocketRequesterConfig.get()
+                .route("cam-exit")
+                .retrieveMono(Boolean.class);
+    }
+
 }
